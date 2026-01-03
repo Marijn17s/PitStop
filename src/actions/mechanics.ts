@@ -22,7 +22,7 @@ export async function createMechanicAction(formData: FormData) {
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      errors: z.flattenError(validatedFields.error).fieldErrors,
     };
   }
 
@@ -48,7 +48,7 @@ export async function updateMechanicAction(id: number, formData: FormData) {
 
   if (!validatedFields.success) {
     return {
-      errors: validatedFields.error.flatten().fieldErrors,
+      errors: z.flattenError(validatedFields.error).fieldErrors,
     };
   }
 
