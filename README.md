@@ -56,7 +56,6 @@ Create a `.env.local` file in the root directory with the following required var
 DATABASE_URL=postgresql://PitStop_direction:5fb625aebfe8224eb6a76851415a6ddcf86555a6@vtd917.h.filess.io:5434/PitStop_direction
 
 # NextAuth Configuration
-# Generate a secure secret for production using: openssl rand -base64 32
 NEXTAUTH_SECRET=your-super-secret-key-change-this-in-production
 
 # Application URL
@@ -66,10 +65,7 @@ NEXTAUTH_URL=http://localhost:3000
 
 **Important Notes:**
 - Never commit `.env.local` to version control (it's already in `.gitignore`)
-- For production, generate a secure `NEXTAUTH_SECRET` using:
-  ```bash
-  openssl rand -base64 32
-  ```
+- For production, use a secure `NEXTAUTH_SECRET`
 - Update `NEXTAUTH_URL` to match your production domain when deploying
 
 ### Step 4: Database Setup
@@ -105,7 +101,7 @@ The application will be available at [http://localhost:3000](http://localhost:30
 Build the application
 
 ```bash
-bun run build
+bun --env-file=.env.production run build
 ```
 
 Start the production server:
