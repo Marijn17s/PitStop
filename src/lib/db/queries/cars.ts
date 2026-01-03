@@ -77,7 +77,7 @@ export async function getCarWithServices(id: number): Promise<CarWithServices | 
   if (!car) return null;
 
   const servicesResult = await query<Service>(
-    'SELECT * FROM service WHERE car_id = $1 ORDER BY start_date DESC',
+    'SELECT * FROM service WHERE car_id = $1 ORDER BY start_date DESC LIMIT 10',
     [id]
   );
 

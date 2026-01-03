@@ -193,7 +193,8 @@ export async function getServicesByMechanicId(mechanicId: number): Promise<Servi
     `SELECT s.* FROM service s
      INNER JOIN service_mechanics sm ON s.id = sm.service_id
      WHERE sm.mechanic_id = $1
-     ORDER BY s.start_date DESC`,
+     ORDER BY s.start_date DESC
+     LIMIT 10`,
     [mechanicId]
   );
 
