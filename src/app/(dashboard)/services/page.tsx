@@ -3,8 +3,9 @@ import { Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { Pagination } from "@/components/ui/pagination";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { getAllServices } from "@/lib/db/queries/services";
+import { getServicesPaginated } from "@/lib/db/queries/services";
 import { getAllCars } from "@/lib/db/queries/cars";
 import { formatDate, formatStatus } from "@/lib/date-utils";
 
@@ -15,21 +16,24 @@ const statusColors = {
   cancelled: "bg-gray-100 text-gray-800",
 };
 
+const PAGE_SIZE = 10;
+
 export default async function ServicesPage({
   searchParams,
 }: {
-  searchParams: Promise<{ status?: string }>;
+  searchParams: Promise<{ status?: string; page?: string }>;
 }) {
   const params = await searchParams;
-  const [allServices, cars] = await Promise.all([
-    getAllServices(),
+  const currentPage = params.page ? parseInt(params.page, 10) : 1;
+  const page = Math.max(1, isNaN(currentPage) ? 1 : currentPage);
+  const status = params.status === "all" ? undefined : params.status;
+
+  const [result, cars] = await Promise.all([
+    getServicesPaginated(page, PAGE_SIZE, status),
     getAllCars()
   ]);
 
-  const services = params.status
-    ? allServices.filter(s => s.status === params.status)
-    : allServices;
-
+  const { services, total, totalPages } = result;
   const carMap = new Map(cars.map(car => [car.id, car]));
 
   return (
@@ -49,7 +53,7 @@ export default async function ServicesPage({
 
       <Card className="p-4">
         <form className="flex gap-2">
-          <Select name="status" defaultValue={params.status || "all"}>
+          <Select name="status" defaultValue={status || "all"}>
             <SelectTrigger className="w-[200px]">
               <SelectValue placeholder="Filter by status" />
             </SelectTrigger>
@@ -73,11 +77,11 @@ export default async function ServicesPage({
             </div>
             <h3 className="text-lg font-semibold text-slate-900 mb-2">No services found</h3>
             <p className="text-slate-500 mb-6">
-              {params.status 
+              {status 
                 ? "No services match the selected filter"
                 : "Get started by scheduling your first service"}
             </p>
-            {!params.status && (
+            {!status && (
               <Link href="/services/new">
                 <Button className="bg-blue-600 hover:bg-blue-700">
                   <Plus className="mr-2 h-4 w-4" />
@@ -179,9 +183,19 @@ export default async function ServicesPage({
       )}
 
       {services.length > 0 && (
-        <p className="text-sm text-slate-500 text-center">
-          Showing {services.length} {services.length === 1 ? "service" : "services"}
-        </p>
+        <>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <p className="text-sm text-slate-500 text-center sm:text-left">
+              Showing {((page - 1) * PAGE_SIZE) + 1} to {Math.min(page * PAGE_SIZE, total)} of {total} {total === 1 ? "service" : "services"}
+            </p>
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              baseUrl="/services"
+              searchParams={{ status: status || undefined }}
+            />
+          </div>
+        </>
       )}
     </div>
   );

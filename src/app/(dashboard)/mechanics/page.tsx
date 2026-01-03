@@ -4,17 +4,25 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getAllMechanics, searchMechanics } from "@/lib/db/queries/mechanics";
+import { Pagination } from "@/components/ui/pagination";
+import { getMechanicsPaginated, searchMechanicsPaginated } from "@/lib/db/queries/mechanics";
+
+const PAGE_SIZE = 10;
 
 export default async function MechanicsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; page?: string }>;
 }) {
   const params = await searchParams;
-  const mechanics = params.q 
-    ? await searchMechanics(params.q)
-    : await getAllMechanics();
+  const currentPage = params.page ? parseInt(params.page, 10) : 1;
+  const page = Math.max(1, isNaN(currentPage) ? 1 : currentPage);
+
+  const result = params.q
+    ? await searchMechanicsPaginated(params.q, page, PAGE_SIZE)
+    : await getMechanicsPaginated(page, PAGE_SIZE);
+
+  const { mechanics, total, totalPages } = result;
 
   return (
     <div className="space-y-6">
@@ -135,9 +143,19 @@ export default async function MechanicsPage({
       )}
 
       {mechanics.length > 0 && (
-        <p className="text-sm text-slate-500 text-center">
-          Showing {mechanics.length} {mechanics.length === 1 ? "mechanic" : "mechanics"}
-        </p>
+        <>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <p className="text-sm text-slate-500 text-center sm:text-left">
+              Showing {((page - 1) * PAGE_SIZE) + 1} to {Math.min(page * PAGE_SIZE, total)} of {total} {total === 1 ? "mechanic" : "mechanics"}
+            </p>
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              baseUrl="/mechanics"
+              searchParams={{ q: params.q }}
+            />
+          </div>
+        </>
       )}
     </div>
   );

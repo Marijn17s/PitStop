@@ -74,7 +74,6 @@
     --tw-ring-offset-color: rgb(var(--color-background));
   }
   
-  /* Override light mode colors for dark mode */
   .bg-white {
     background-color: rgb(30 41 59) !important;
   }

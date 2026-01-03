@@ -8,6 +8,62 @@ export async function getAllCars(): Promise<Car[]> {
   return result.rows;
 }
 
+export async function getCarsPaginated(
+  page: number = 1,
+  pageSize: number = 10
+): Promise<{ cars: Car[]; total: number; totalPages: number }> {
+  const offset = (page - 1) * pageSize;
+
+  const [dataResult, countResult] = await Promise.all([
+    query<Car>(
+      'SELECT * FROM car ORDER BY created_at DESC LIMIT $1 OFFSET $2',
+      [pageSize, offset]
+    ),
+    query<{ count: string }>('SELECT COUNT(*)::text as count FROM car')
+  ]);
+
+  const total = parseInt(countResult.rows[0].count);
+  const totalPages = Math.ceil(total / pageSize);
+
+  return {
+    cars: dataResult.rows,
+    total,
+    totalPages,
+  };
+}
+
+export async function searchCarsPaginated(
+  searchTerm: string,
+  page: number = 1,
+  pageSize: number = 10
+): Promise<{ cars: Car[]; total: number; totalPages: number }> {
+  const offset = (page - 1) * pageSize;
+  const searchPattern = `%${searchTerm}%`;
+
+  const [dataResult, countResult] = await Promise.all([
+    query<Car>(
+      `SELECT * FROM car 
+       WHERE brand ILIKE $1 OR model ILIKE $1 OR owner ILIKE $1
+       ORDER BY created_at DESC LIMIT $2 OFFSET $3`,
+      [searchPattern, pageSize, offset]
+    ),
+    query<{ count: string }>(
+      `SELECT COUNT(*)::text as count FROM car 
+       WHERE brand ILIKE $1 OR model ILIKE $1 OR owner ILIKE $1`,
+      [searchPattern]
+    )
+  ]);
+
+  const total = parseInt(countResult.rows[0].count);
+  const totalPages = Math.ceil(total / pageSize);
+
+  return {
+    cars: dataResult.rows,
+    total,
+    totalPages,
+  };
+}
+
 export async function getCarById(id: number): Promise<Car | null> {
   const result = await query<Car>(
     'SELECT * FROM car WHERE id = $1',

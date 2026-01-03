@@ -8,6 +8,62 @@ export async function getAllMechanics(): Promise<Mechanic[]> {
   return result.rows;
 }
 
+export async function getMechanicsPaginated(
+  page: number = 1,
+  pageSize: number = 10
+): Promise<{ mechanics: Mechanic[]; total: number; totalPages: number }> {
+  const offset = (page - 1) * pageSize;
+
+  const [dataResult, countResult] = await Promise.all([
+    query<Mechanic>(
+      'SELECT * FROM mechanic ORDER BY last_name, first_name LIMIT $1 OFFSET $2',
+      [pageSize, offset]
+    ),
+    query<{ count: string }>('SELECT COUNT(*)::text as count FROM mechanic')
+  ]);
+
+  const total = parseInt(countResult.rows[0].count);
+  const totalPages = Math.ceil(total / pageSize);
+
+  return {
+    mechanics: dataResult.rows,
+    total,
+    totalPages,
+  };
+}
+
+export async function searchMechanicsPaginated(
+  searchTerm: string,
+  page: number = 1,
+  pageSize: number = 10
+): Promise<{ mechanics: Mechanic[]; total: number; totalPages: number }> {
+  const offset = (page - 1) * pageSize;
+  const searchPattern = `%${searchTerm}%`;
+
+  const [dataResult, countResult] = await Promise.all([
+    query<Mechanic>(
+      `SELECT * FROM mechanic 
+       WHERE first_name ILIKE $1 OR last_name ILIKE $1 OR email ILIKE $1
+       ORDER BY last_name, first_name LIMIT $2 OFFSET $3`,
+      [searchPattern, pageSize, offset]
+    ),
+    query<{ count: string }>(
+      `SELECT COUNT(*)::text as count FROM mechanic 
+       WHERE first_name ILIKE $1 OR last_name ILIKE $1 OR email ILIKE $1`,
+      [searchPattern]
+    )
+  ]);
+
+  const total = parseInt(countResult.rows[0].count);
+  const totalPages = Math.ceil(total / pageSize);
+
+  return {
+    mechanics: dataResult.rows,
+    total,
+    totalPages,
+  };
+}
+
 export async function getMechanicById(id: number): Promise<Mechanic | null> {
   const result = await query<Mechanic>(
     'SELECT * FROM mechanic WHERE id = $1',

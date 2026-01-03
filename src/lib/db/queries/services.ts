@@ -8,6 +8,44 @@ export async function getAllServices(): Promise<Service[]> {
   return result.rows;
 }
 
+export async function getServicesPaginated(
+  page: number = 1,
+  pageSize: number = 10,
+  status?: string
+): Promise<{ services: Service[]; total: number; totalPages: number }> {
+  const offset = (page - 1) * pageSize;
+
+  const [dataResult, countResult] = await Promise.all([
+    status
+      ? query<Service>(
+          `SELECT * FROM service WHERE status = $1 ORDER BY start_date DESC LIMIT $2 OFFSET $3`,
+          [status, pageSize, offset]
+        )
+      : query<Service>(
+          `SELECT * FROM service ORDER BY start_date DESC LIMIT $1 OFFSET $2`,
+          [pageSize, offset]
+        ),
+    status
+      ? query<{ count: string }>(
+          'SELECT COUNT(*)::text as count FROM service WHERE status = $1',
+          [status]
+        )
+      : query<{ count: string }>(
+          'SELECT COUNT(*)::text as count FROM service',
+          []
+        )
+  ]);
+
+  const total = parseInt(countResult.rows[0].count);
+  const totalPages = Math.ceil(total / pageSize);
+
+  return {
+    services: dataResult.rows,
+    total,
+    totalPages,
+  };
+}
+
 export async function getServiceById(id: number): Promise<Service | null> {
   const result = await query<Service>(
     'SELECT * FROM service WHERE id = $1',

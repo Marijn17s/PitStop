@@ -4,17 +4,25 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { getAllCars, searchCars } from "@/lib/db/queries/cars";
+import { Pagination } from "@/components/ui/pagination";
+import { getCarsPaginated, searchCarsPaginated } from "@/lib/db/queries/cars";
+
+const PAGE_SIZE = 10;
 
 export default async function CarsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ q?: string }>;
+  searchParams: Promise<{ q?: string; page?: string }>;
 }) {
   const params = await searchParams;
-  const cars = params.q 
-    ? await searchCars(params.q)
-    : await getAllCars();
+  const currentPage = params.page ? parseInt(params.page, 10) : 1;
+  const page = Math.max(1, isNaN(currentPage) ? 1 : currentPage);
+
+  const result = params.q
+    ? await searchCarsPaginated(params.q, page, PAGE_SIZE)
+    : await getCarsPaginated(page, PAGE_SIZE);
+
+  const { cars, total, totalPages } = result;
 
   return (
     <div className="space-y-6">
@@ -147,9 +155,19 @@ export default async function CarsPage({
       )}
 
       {cars.length > 0 && (
-        <p className="text-sm text-slate-500 text-center">
-          Showing {cars.length} {cars.length === 1 ? "car" : "cars"}
-        </p>
+        <>
+          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+            <p className="text-sm text-slate-500 text-center sm:text-left">
+              Showing {((page - 1) * PAGE_SIZE) + 1} to {Math.min(page * PAGE_SIZE, total)} of {total} {total === 1 ? "car" : "cars"}
+            </p>
+            <Pagination
+              currentPage={page}
+              totalPages={totalPages}
+              baseUrl="/cars"
+              searchParams={{ q: params.q }}
+            />
+          </div>
+        </>
       )}
     </div>
   );
