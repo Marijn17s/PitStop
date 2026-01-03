@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useFormStatus } from "react-dom";
-import { Car, Mechanic, ServiceWithDetails } from "@/types";
+import { Car, Mechanic, Service, ServiceWithDetails } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -37,7 +37,13 @@ export function ServiceForm({ service, cars, mechanics, action, preselectedCarId
   const [selectedCar, setSelectedCar] = useState<string>(
     service?.car_id.toString() || preselectedCarId?.toString() || ""
   );
-  const [status, setStatus] = useState(service?.status || "scheduled");
+  const [status, setStatus] = useState<Service["status"]>(
+    service?.status || "scheduled"
+  );
+
+  const handleStatusChange = (value: string) => {
+    setStatus(value as Service["status"]);
+  };
 
   const handleSubmit = async (formData: FormData) => {
     setError(null);
@@ -121,7 +127,7 @@ export function ServiceForm({ service, cars, mechanics, action, preselectedCarId
 
           <div className="space-y-2">
             <Label htmlFor="status">Status *</Label>
-            <Select name="status" value={status} onValueChange={setStatus} required>
+            <Select name="status" value={status} onValueChange={handleStatusChange} required>
               <SelectTrigger>
                 <SelectValue />
               </SelectTrigger>

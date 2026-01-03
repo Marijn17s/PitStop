@@ -6,7 +6,7 @@ import { z } from "zod";
 import { createService, updateService, deleteService } from "@/lib/db/queries/services";
 
 const serviceSchema = z.object({
-  carId: z.number({required_error: "Car is required"}),
+  carId: z.number({error: "Car is required"}),
   startDate: z.string().min(1, "Start date is required"),
   endDate: z.string().optional(),
   status: z.enum(["scheduled", "in_progress", "completed", "cancelled"]),
