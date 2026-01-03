@@ -98,10 +98,10 @@ The application will be available at [http://localhost:3000](http://localhost:30
 
 ### Production Build
 
-Build the application
+Build the application (make sure you have a .env.production file)
 
 ```bash
-bun --env-file=.env.production run build
+bun run build
 ```
 
 Start the production server:
@@ -199,9 +199,9 @@ src/
 # Development
 bun dev                    # Start development server
 
-# Production
-bun --env-file=.env.production run build     # Build for production
-bun start                                    # Start production server
+# Production (make sure you have a .env.production file)
+bun run build     # Build for production
+bun start         # Start production server
 
 # Testing
 bun test                   # Run all tests
