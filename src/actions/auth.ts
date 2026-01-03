@@ -13,7 +13,7 @@ export async function registerUser(data: {
     const existingUser = await getUserByEmail(data.email);
     
     if (existingUser) {
-      return { error: "Email already registered" };
+      return { error: "There is already an account associated with this email" };
     }
 
     const passwordHash = await bcrypt.hash(data.password, 12);
