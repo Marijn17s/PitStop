@@ -9,7 +9,7 @@ const mechanicSchema = z.object({
   firstName: z.string().min(1, "First name is required"),
   lastName: z.string().min(1, "Last name is required"),
   yearsExperience: z.number().min(0).max(100),
-  email: z.string().email().optional().or(z.literal("")),
+  email: z.email().optional().or(z.literal("")),
 });
 
 export async function createMechanicAction(formData: FormData) {
