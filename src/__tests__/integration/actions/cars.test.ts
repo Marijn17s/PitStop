@@ -18,7 +18,7 @@ beforeAll(async () => {
   await initializeSchema(db);
   
   const mockQuery = createMockQueryFunction(db.adapters.createPg().Pool);
-  jest.spyOn(dbIndex, 'query').mockImplementation(mockQuery as any);
+  jest.spyOn(dbIndex, 'query').mockImplementation(mockQuery as typeof dbIndex.query);
   
   jest.spyOn(nextCache, 'revalidatePath').mockImplementation(() => {});
   jest.spyOn(nextNavigation, 'redirect').mockImplementation((path: string) => {

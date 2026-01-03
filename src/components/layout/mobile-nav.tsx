@@ -1,9 +1,9 @@
 "use client";
 
-import { Fragment } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Dialog, Transition } from "@headlessui/react";
+import Image from "next/image";
+import { Dialog } from "@headlessui/react";
 import { X, Car, Wrench, Calendar, LayoutDashboard } from "lucide-react";
 import { cn } from "@/lib/utils";
 
@@ -22,6 +22,10 @@ interface MobileNavProps {
 export function MobileNav({ open, onClose }: MobileNavProps) {
   const pathname = usePathname();
 
+  if (!open) {
+    return null;
+  }
+
   return (
     <Dialog as="div" className="relative z-50 lg:hidden" open={open} onClose={onClose}>
       <div className="fixed inset-0 bg-slate-900/80" />
@@ -36,11 +40,12 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
 
           <div className="flex grow flex-col gap-y-5 overflow-y-auto bg-slate-900 px-6 py-4">
             <div className="flex h-16 shrink-0 items-center gap-2">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden">
-                <img
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden relative">
+                <Image
                   src="/favicon.ico"
                   alt="PitStop"
-                  className="w-full h-full object-contain"
+                  fill
+                  className="object-contain"
                 />
               </div>
               <span className="text-2xl font-bold text-slate-100">PitStop</span>

@@ -102,7 +102,7 @@ export async function cleanDatabase(db: IMemoryDb): Promise<void> {
 
 export async function mockQuery<T extends QueryResultRow>(
   text: string,
-  params?: any[]
+  params?: unknown[]
 ): Promise<QueryResult<T>> {
   const pool = new testPool();
   return pool.query(text, params) as Promise<QueryResult<T>>;
@@ -111,7 +111,7 @@ export async function mockQuery<T extends QueryResultRow>(
 export function createMockQueryFunction(poolConstructor: typeof Pool) {
   return async <T extends QueryResultRow>(
     text: string,
-    params?: any[]
+    params?: unknown[]
   ): Promise<QueryResult<T>> => {
     const pool = new poolConstructor();
     return pool.query(text, params) as Promise<QueryResult<T>>;

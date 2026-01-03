@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -41,7 +42,7 @@ export default function LoginPage() {
         router.push("/dashboard");
         router.refresh();
       }
-    } catch (error) {
+    } catch {
       setError("An error occurred. Please try again.");
     } finally {
       setIsLoading(false);
@@ -54,11 +55,12 @@ export default function LoginPage() {
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden">
-                <img
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden relative">
+                <Image
                   src="/favicon.ico"
                   alt="PitStop"
-                  className="w-full h-full object-contain"
+                  fill
+                  className="object-contain"
                 />
               </div>
               <h1 className="text-2xl font-bold text-slate-100">PitStop</h1>
@@ -112,7 +114,7 @@ export default function LoginPage() {
               {isLoading ? "Signing in..." : "Sign In"}
             </Button>
             <p className="text-sm text-center text-slate-400">
-              Don't have an account?{" "}
+              Don&apos;t have an account?{" "}
               <Link href="/register" className="text-blue-400 hover:text-blue-300 font-medium">
                 Sign up
               </Link>

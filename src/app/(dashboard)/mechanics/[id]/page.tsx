@@ -94,7 +94,7 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
               <div className="text-center py-8">
                 <Calendar className="h-12 w-12 mx-auto mb-3 text-slate-300" />
                 <p className="text-slate-500">No services assigned yet</p>
-                <p className="text-sm text-slate-400 mt-1">This mechanic hasn't been assigned to any services</p>
+                <p className="text-sm text-slate-400 mt-1">This mechanic hasn&apos;t been assigned to any services</p>
               </div>
             ) : (
               <div className="space-y-3">

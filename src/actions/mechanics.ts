@@ -28,7 +28,7 @@ export async function createMechanicAction(formData: FormData) {
 
   try {
     await createMechanic(validatedFields.data);
-  } catch (error) {
+  } catch {
     return {
       error: "Failed to create mechanic. Please try again.",
     };
@@ -54,7 +54,7 @@ export async function updateMechanicAction(id: number, formData: FormData) {
 
   try {
     await updateMechanic(id, validatedFields.data);
-  } catch (error) {
+  } catch {
     return {
       error: "Failed to update mechanic. Please try again.",
     };
@@ -68,7 +68,7 @@ export async function updateMechanicAction(id: number, formData: FormData) {
 export async function deleteMechanicAction(id: number) {
   try {
     await deleteMechanic(id);
-  } catch (error) {
+  } catch {
     return {
       error: "Failed to delete mechanic. Please try again.",
     };

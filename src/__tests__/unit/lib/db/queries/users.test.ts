@@ -19,7 +19,7 @@ beforeAll(async () => {
   await initializeSchema(db);
   
   const mockQuery = createMockQueryFunction(db.adapters.createPg().Pool);
-  jest.spyOn(dbIndex, 'query').mockImplementation(mockQuery as any);
+  jest.spyOn(dbIndex, 'query').mockImplementation(mockQuery as typeof dbIndex.query);
 });
 
 afterEach(async () => {

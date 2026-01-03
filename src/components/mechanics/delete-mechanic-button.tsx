@@ -22,7 +22,7 @@ export function DeleteMechanicButton({ mechanicId }: { mechanicId: number }) {
     setIsDeleting(true);
     try {
       await deleteMechanicAction(mechanicId);
-    } catch (error) {
+    } catch {
       setIsDeleting(false);
       setOpen(false);
     }

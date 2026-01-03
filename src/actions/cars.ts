@@ -32,7 +32,7 @@ export async function createCarAction(formData: FormData) {
 
   try {
     await createCar(validatedFields.data);
-  } catch (error) {
+  } catch {
     return {
       error: "Failed to create car. Please try again.",
     };
@@ -60,7 +60,7 @@ export async function updateCarAction(id: number, formData: FormData) {
 
   try {
     await updateCar(id, validatedFields.data);
-  } catch (error) {
+  } catch {
     return {
       error: "Failed to update car. Please try again.",
     };
@@ -74,7 +74,7 @@ export async function updateCarAction(id: number, formData: FormData) {
 export async function deleteCarAction(id: number) {
   try {
     await deleteCar(id);
-  } catch (error) {
+  } catch {
     return {
       error: "Failed to delete car. Please try again.",
     };

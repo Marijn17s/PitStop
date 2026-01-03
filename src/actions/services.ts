@@ -42,7 +42,7 @@ export async function createServiceAction(formData: FormData) {
       notes,
       mechanicIds,
     });
-  } catch (error) {
+  } catch {
     return {
       error: "Failed to create service. Please try again.",
     };
@@ -80,7 +80,7 @@ export async function updateServiceAction(id: number, formData: FormData) {
       notes,
       mechanicIds,
     });
-  } catch (error) {
+  } catch {
     return {
       error: "Failed to update service. Please try again.",
     };
@@ -94,7 +94,7 @@ export async function updateServiceAction(id: number, formData: FormData) {
 export async function deleteServiceAction(id: number) {
   try {
     await deleteService(id);
-  } catch (error) {
+  } catch {
     return {
       error: "Failed to delete service. Please try again.",
     };

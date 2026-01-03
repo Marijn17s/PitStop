@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -89,7 +90,7 @@ export default function RegisterPage() {
       } else {
         router.push("/login?registered=true");
       }
-    } catch (error) {
+    } catch {
       setErrors({ general: "An error occurred. Please try again." });
     } finally {
       setIsLoading(false);
@@ -105,11 +106,12 @@ export default function RegisterPage() {
         <CardHeader className="space-y-1">
           <div className="flex items-center justify-center mb-4">
             <div className="flex items-center gap-2">
-              <div className="w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden">
-                <img
+              <div className="w-10 h-10 rounded-lg flex items-center justify-center overflow-hidden relative">
+                <Image
                   src="/favicon.ico"
                   alt="PitStop"
-                  className="w-full h-full object-contain"
+                  fill
+                  className="object-contain"
                 />
               </div>
               <h1 className="text-2xl font-bold text-slate-100">PitStop</h1>

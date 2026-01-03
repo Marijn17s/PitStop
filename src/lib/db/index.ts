@@ -1,4 +1,4 @@
-import { Pool, QueryResult, QueryResultRow } from 'pg';
+import { Pool, QueryResult, QueryResultRow, PoolClient } from 'pg';
 
 if (!process.env.DATABASE_URL && process.env.NODE_ENV !== 'test') {
   throw new Error('DATABASE_URL environment variable is not set');
@@ -32,7 +32,7 @@ pool.on('error', (err) => {
 
 export async function query<T extends QueryResultRow>(
   text: string,
-  params?: any[]
+  params?: unknown[]
 ): Promise<QueryResult<T>> {
   const start = Date.now();
   try {
@@ -51,7 +51,7 @@ export async function getClient() {
 }
 
 export async function transaction<T>(
-  callback: (client: any) => Promise<T>
+  callback: (client: PoolClient) => Promise<T>
 ): Promise<T> {
   const client = await pool.connect();
   try {

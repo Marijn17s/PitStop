@@ -51,16 +51,18 @@ export const authConfig: NextAuthConfig = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.firstName = (user as any).firstName;
-        token.lastName = (user as any).lastName;
+        const userWithNames = user as typeof user & { firstName?: string; lastName?: string };
+        token.firstName = userWithNames.firstName;
+        token.lastName = userWithNames.lastName;
       }
       return token;
     },
     async session({ session, token }) {
       if (token && session.user) {
         session.user.id = token.id as string;
-        (session.user as any).firstName = token.firstName;
-        (session.user as any).lastName = token.lastName;
+        const userWithNames = session.user as typeof session.user & { firstName?: string; lastName?: string };
+        userWithNames.firstName = token.firstName as string | undefined;
+        userWithNames.lastName = token.lastName as string | undefined;
       }
       return session;
     },

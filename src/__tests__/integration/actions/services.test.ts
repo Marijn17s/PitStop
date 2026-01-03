@@ -22,8 +22,8 @@ beforeAll(async () => {
   await initializeSchema(db);
   
   const mockQuery = createMockQueryFunction(db.adapters.createPg().Pool);
-  jest.spyOn(dbIndex, 'query').mockImplementation(mockQuery as any);
-  jest.spyOn(dbIndex, 'transaction').mockImplementation(async (callback: any) => {
+  jest.spyOn(dbIndex, 'query').mockImplementation(mockQuery as typeof dbIndex.query);
+  jest.spyOn(dbIndex, 'transaction').mockImplementation(async (callback: Parameters<typeof dbIndex.transaction>[0]) => {
     const PoolClass = db.adapters.createPg().Pool;
     const pool = new PoolClass();
     const client = await pool.connect();

@@ -15,7 +15,7 @@ interface ServiceFormProps {
   service?: ServiceWithDetails;
   cars: Car[];
   mechanics: Mechanic[];
-  action: (formData: FormData) => Promise<any>;
+  action: (formData: FormData) => Promise<{ error?: string; errors?: Record<string, string[]> } | void>;
   preselectedCarId?: number;
 }
 

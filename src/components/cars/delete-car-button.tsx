@@ -22,7 +22,7 @@ export function DeleteCarButton({ carId }: { carId: number }) {
     setIsDeleting(true);
     try {
       await deleteCarAction(carId);
-    } catch (error) {
+    } catch {
       setIsDeleting(false);
       setOpen(false);
     }

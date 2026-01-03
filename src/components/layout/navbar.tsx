@@ -1,9 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useLayoutEffect } from "react";
 import { signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { Menu, LogOut, User as UserIcon } from "lucide-react";
+import Image from "next/image";
+import { Menu, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -28,7 +29,7 @@ export function Navbar({ user, onMenuClick }: NavbarProps) {
   const [isLoggingOut, setIsLoggingOut] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     setMounted(true);
   }, []);
 
@@ -64,11 +65,12 @@ export function Navbar({ user, onMenuClick }: NavbarProps) {
       <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
         <div className="flex flex-1 items-center">
           <div className="lg:hidden flex items-center gap-2">
-            <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden">
-              <img
+            <div className="w-8 h-8 rounded-lg flex items-center justify-center overflow-hidden relative">
+              <Image
                 src="/favicon.ico"
                 alt="PitStop"
-                className="w-full h-full object-contain"
+                fill
+                className="object-contain"
               />
             </div>
             <span className="text-lg font-bold text-slate-100">PitStop</span>
@@ -86,7 +88,7 @@ export function Navbar({ user, onMenuClick }: NavbarProps) {
                   </Avatar>
                 </Button>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="w-56" align="end" forceMount>
+              <DropdownMenuContent className="w-56" align="end">
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium leading-none">{user.name}</p>

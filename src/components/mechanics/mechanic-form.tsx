@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 
 interface MechanicFormProps {
   mechanic?: Mechanic;
-  action: (formData: FormData) => Promise<any>;
+  action: (formData: FormData) => Promise<{ error?: string; errors?: Record<string, string[]> } | void>;
 }
 
 function SubmitButton({ isEdit }: { isEdit: boolean }) {

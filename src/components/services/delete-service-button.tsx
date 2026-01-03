@@ -22,7 +22,7 @@ export function DeleteServiceButton({ serviceId }: { serviceId: number }) {
     setIsDeleting(true);
     try {
       await deleteServiceAction(serviceId);
-    } catch (error) {
+    } catch {
       setIsDeleting(false);
       setOpen(false);
     }
