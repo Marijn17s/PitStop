@@ -3,14 +3,14 @@ import { Car, CarWithServices, Service } from '@/types';
 
 export async function getAllCars(): Promise<Car[]> {
   const result = await query<Car>(
-    'SELECT * FROM "PitStop_direction".car ORDER BY created_at DESC'
+    'SELECT * FROM car ORDER BY created_at DESC'
   );
   return result.rows;
 }
 
 export async function getCarById(id: number): Promise<Car | null> {
   const result = await query<Car>(
-    'SELECT * FROM "PitStop_direction".car WHERE id = $1',
+    'SELECT * FROM car WHERE id = $1',
     [id]
   );
   return result.rows[0] || null;
@@ -21,7 +21,7 @@ export async function getCarWithServices(id: number): Promise<CarWithServices | 
   if (!car) return null;
 
   const servicesResult = await query<Service>(
-    'SELECT * FROM "PitStop_direction".service WHERE car_id = $1 ORDER BY start_date DESC',
+    'SELECT * FROM service WHERE car_id = $1 ORDER BY start_date DESC',
     [id]
   );
 
@@ -40,7 +40,7 @@ export async function createCar(data: {
   owner?: string;
 }): Promise<Car> {
   const result = await query<Car>(
-    `INSERT INTO "PitStop_direction".car (brand, model, year, color, license_plate, owner)
+    `INSERT INTO car (brand, model, year, color, license_plate, owner)
      VALUES ($1, $2, $3, $4, $5, $6)
      RETURNING *`,
     [data.brand, data.model, data.year, data.color, data.licensePlate || null, data.owner || null]
@@ -60,7 +60,7 @@ export async function updateCar(id: number, data: {
   if (!car) return null;
 
   const result = await query<Car>(
-    `UPDATE "PitStop_direction".car 
+    `UPDATE car 
      SET brand = $1, model = $2, year = $3, color = $4, 
          license_plate = $5, owner = $6, updated_at = CURRENT_TIMESTAMP
      WHERE id = $7
@@ -80,7 +80,7 @@ export async function updateCar(id: number, data: {
 
 export async function deleteCar(id: number): Promise<boolean> {
   const result = await query(
-    'DELETE FROM "PitStop_direction".car WHERE id = $1',
+    'DELETE FROM car WHERE id = $1',
     [id]
   );
   return (result.rowCount ?? 0) > 0;
@@ -88,7 +88,7 @@ export async function deleteCar(id: number): Promise<boolean> {
 
 export async function searchCars(searchTerm: string): Promise<Car[]> {
   const result = await query<Car>(
-    `SELECT * FROM "PitStop_direction".car 
+    `SELECT * FROM car 
      WHERE brand ILIKE $1 OR model ILIKE $1 OR owner ILIKE $1
      ORDER BY created_at DESC`,
     [`%${searchTerm}%`]
