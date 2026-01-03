@@ -3,14 +3,14 @@ import { Mechanic } from '@/types';
 
 export async function getAllMechanics(): Promise<Mechanic[]> {
   const result = await query<Mechanic>(
-    'SELECT * FROM "PitStop_direction".mechanic ORDER BY last_name, first_name'
+    'SELECT * FROM mechanic ORDER BY last_name, first_name'
   );
   return result.rows;
 }
 
 export async function getMechanicById(id: number): Promise<Mechanic | null> {
   const result = await query<Mechanic>(
-    'SELECT * FROM "PitStop_direction".mechanic WHERE id = $1',
+    'SELECT * FROM mechanic WHERE id = $1',
     [id]
   );
   return result.rows[0] || null;
@@ -23,7 +23,7 @@ export async function createMechanic(data: {
   email?: string;
 }): Promise<Mechanic> {
   const result = await query<Mechanic>(
-    `INSERT INTO "PitStop_direction".mechanic (first_name, last_name, years_experience, email)
+    `INSERT INTO mechanic (first_name, last_name, years_experience, email)
      VALUES ($1, $2, $3, $4)
      RETURNING *`,
     [data.firstName, data.lastName, data.yearsExperience, data.email || null]
@@ -41,7 +41,7 @@ export async function updateMechanic(id: number, data: {
   if (!mechanic) return null;
 
   const result = await query<Mechanic>(
-    `UPDATE "PitStop_direction".mechanic 
+    `UPDATE mechanic 
      SET first_name = $1, last_name = $2, years_experience = $3, 
          email = $4, updated_at = CURRENT_TIMESTAMP
      WHERE id = $5
@@ -59,7 +59,7 @@ export async function updateMechanic(id: number, data: {
 
 export async function deleteMechanic(id: number): Promise<boolean> {
   const result = await query(
-    'DELETE FROM "PitStop_direction".mechanic WHERE id = $1',
+    'DELETE FROM mechanic WHERE id = $1',
     [id]
   );
   return (result.rowCount ?? 0) > 0;
@@ -67,7 +67,7 @@ export async function deleteMechanic(id: number): Promise<boolean> {
 
 export async function searchMechanics(searchTerm: string): Promise<Mechanic[]> {
   const result = await query<Mechanic>(
-    `SELECT * FROM "PitStop_direction".mechanic 
+    `SELECT * FROM mechanic 
      WHERE first_name ILIKE $1 OR last_name ILIKE $1 OR email ILIKE $1
      ORDER BY last_name, first_name`,
     [`%${searchTerm}%`]
