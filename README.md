@@ -53,7 +53,7 @@ Create a `.env.local` file in the root directory with the following required var
 ```env
 # Database Connection
 # Format: postgresql://username:password@host:port/database
-DATABASE_URL=postgresql://PitStop_direction:5fb625aebfe8224eb6a76851415a6ddcf86555a6@vtd917.h.filess.io:5434/PitStop_direction
+DATABASE_URL=postgresql://username:password@host:port/database
 
 # NextAuth Configuration
 NEXTAUTH_SECRET=your-super-secret-key-change-this-in-production
