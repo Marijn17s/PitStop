@@ -1,6 +1,6 @@
 CREATE SCHEMA IF NOT EXISTS "PitStop_direction";
 
-CREATE TABLE IF NOT EXISTS "PitStop_direction".users (
+CREATE TABLE IF NOT EXISTS "PitStop_direction".user (
   id SERIAL PRIMARY KEY,
   email VARCHAR(255) NOT NULL UNIQUE,
   password_hash VARCHAR(255) NOT NULL,
@@ -11,4 +11,4 @@ CREATE TABLE IF NOT EXISTS "PitStop_direction".users (
   last_login TIMESTAMP
 );
 
-CREATE INDEX IF NOT EXISTS idx_users_email ON "PitStop_direction".users(email);
+CREATE INDEX IF NOT EXISTS idx_user_email ON "PitStop_direction".user(email);

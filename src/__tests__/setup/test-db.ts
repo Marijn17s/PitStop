@@ -26,7 +26,7 @@ export function setupTestDb(): IMemoryDb {
 
 export async function initializeSchema(db: IMemoryDb): Promise<void> {
   await db.public.none(`
-    CREATE TABLE IF NOT EXISTS users (
+    CREATE TABLE IF NOT EXISTS user (
       id SERIAL PRIMARY KEY,
       email VARCHAR(255) UNIQUE NOT NULL,
       password_hash VARCHAR(255) NOT NULL,
@@ -97,7 +97,7 @@ export async function cleanDatabase(db: IMemoryDb): Promise<void> {
   await db.public.none('DELETE FROM service');
   await db.public.none('DELETE FROM car');
   await db.public.none('DELETE FROM mechanic');
-  await db.public.none('DELETE FROM users');
+  await db.public.none('DELETE FROM user');
 }
 
 export async function mockQuery<T extends QueryResultRow>(
