@@ -1,0 +1,68 @@
+@startuml
+left to right direction
+
+actor User
+
+rectangle "PitStop" {
+  ' Authentication
+  (Register User Account) as UC1
+  (Login) as UC2
+  
+  ' Cars
+  (View Cars) as UC3
+  (Search Cars) as UC4
+  (View Car Details) as UC5
+  (Add Car) as UC6
+  (Edit Car) as UC7
+  (Delete Car) as UC8
+  
+  ' Mechanics
+  (View Mechanics) as UC9
+  (Search Mechanics) as UC10
+  (View Mechanic Details) as UC11
+  (Add Mechanic) as UC12
+  (Edit Mechanic) as UC13
+  (Delete Mechanic) as UC14
+  
+  ' Services
+  (View Services) as UC15
+  (Filter Services by Status) as UC16
+  (View Service Details) as UC17
+  (Schedule Service) as UC18
+  (Edit Service) as UC19
+  (Delete Service) as UC20
+  
+  ' Dashboard
+  (View Dashboard) as UC21
+}
+
+' User associations - direct use cases
+User --> UC1
+User --> UC2
+User --> UC3
+User --> UC6
+User --> UC9
+User --> UC12
+User --> UC15
+User --> UC18
+User --> UC21
+
+' Extend relationships - optional features accessed through base use cases
+' Search/Filter: optional feature in list pages
+UC4 ..> UC3 : <<extends>>
+UC10 ..> UC9 : <<extends>>
+UC16 ..> UC15 : <<extends>>
+
+' View Details: accessed from list
+UC5 ..> UC3 : <<extends>>
+UC11 ..> UC9 : <<extends>>
+UC17 ..> UC15 : <<extends>>
+
+' Edit/Delete: accessed from details
+UC7 ..> UC5 : <<extends>>
+UC8 ..> UC5 : <<extends>>
+UC13 ..> UC11 : <<extends>>
+UC14 ..> UC11 : <<extends>>
+UC19 ..> UC17 : <<extends>>
+UC20 ..> UC17 : <<extends>>
+@enduml
