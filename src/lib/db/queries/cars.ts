@@ -3,7 +3,7 @@ import { Car, CarWithServices, Service } from '@/types';
 
 export async function getAllCars(): Promise<Car[]> {
   const result = await query<Car>(
-    'SELECT * FROM car ORDER BY created_at DESC'
+    'SELECT * FROM "PitStop_direction".car ORDER BY created_at DESC'
   );
   return result.rows;
 }
@@ -16,10 +16,10 @@ export async function getCarsPaginated(
 
   const [dataResult, countResult] = await Promise.all([
     query<Car>(
-      'SELECT * FROM car ORDER BY created_at DESC LIMIT $1 OFFSET $2',
+      'SELECT * FROM "PitStop_direction".car ORDER BY created_at DESC LIMIT $1 OFFSET $2',
       [pageSize, offset]
     ),
-    query<{ count: string }>('SELECT COUNT(*)::text as count FROM car')
+    query<{ count: string }>('SELECT COUNT(*)::text as count FROM "PitStop_direction".car')
   ]);
 
   const total = parseInt(countResult.rows[0].count);
@@ -42,13 +42,13 @@ export async function searchCarsPaginated(
 
   const [dataResult, countResult] = await Promise.all([
     query<Car>(
-      `SELECT * FROM car 
+      `SELECT * FROM "PitStop_direction".car 
        WHERE brand ILIKE $1 OR model ILIKE $1 OR owner ILIKE $1
        ORDER BY created_at DESC LIMIT $2 OFFSET $3`,
       [searchPattern, pageSize, offset]
     ),
     query<{ count: string }>(
-      `SELECT COUNT(*)::text as count FROM car 
+      `SELECT COUNT(*)::text as count FROM "PitStop_direction".car 
        WHERE brand ILIKE $1 OR model ILIKE $1 OR owner ILIKE $1`,
       [searchPattern]
     )
@@ -66,7 +66,7 @@ export async function searchCarsPaginated(
 
 export async function getCarById(id: number): Promise<Car | null> {
   const result = await query<Car>(
-    'SELECT * FROM car WHERE id = $1',
+    'SELECT * FROM "PitStop_direction".car WHERE id = $1',
     [id]
   );
   return result.rows[0] || null;
@@ -77,7 +77,7 @@ export async function getCarWithServices(id: number): Promise<CarWithServices | 
   if (!car) return null;
 
   const servicesResult = await query<Service>(
-    'SELECT * FROM service WHERE car_id = $1 ORDER BY start_date DESC LIMIT 10',
+    'SELECT * FROM "PitStop_direction".service WHERE car_id = $1 ORDER BY start_date DESC LIMIT 10',
     [id]
   );
 
@@ -96,7 +96,7 @@ export async function createCar(data: {
   owner?: string;
 }): Promise<Car> {
   const result = await query<Car>(
-    `INSERT INTO car (brand, model, year, color, license_plate, owner)
+    `INSERT INTO "PitStop_direction".car (brand, model, year, color, license_plate, owner)
      VALUES ($1, $2, $3, $4, $5, $6)
      RETURNING *`,
     [data.brand, data.model, data.year, data.color, data.licensePlate || null, data.owner || null]
@@ -116,7 +116,7 @@ export async function updateCar(id: number, data: {
   if (!car) return null;
 
   const result = await query<Car>(
-    `UPDATE car 
+    `UPDATE "PitStop_direction".car 
      SET brand = $1, model = $2, year = $3, color = $4, 
          license_plate = $5, owner = $6, updated_at = CURRENT_TIMESTAMP
      WHERE id = $7
@@ -136,7 +136,7 @@ export async function updateCar(id: number, data: {
 
 export async function deleteCar(id: number): Promise<boolean> {
   const result = await query(
-    'DELETE FROM car WHERE id = $1',
+    'DELETE FROM "PitStop_direction".car WHERE id = $1',
     [id]
   );
   return (result.rowCount ?? 0) > 0;
@@ -144,7 +144,7 @@ export async function deleteCar(id: number): Promise<boolean> {
 
 export async function searchCars(searchTerm: string): Promise<Car[]> {
   const result = await query<Car>(
-    `SELECT * FROM car 
+    `SELECT * FROM "PitStop_direction".car 
      WHERE brand ILIKE $1 OR model ILIKE $1 OR owner ILIKE $1
      ORDER BY created_at DESC`,
     [`%${searchTerm}%`]

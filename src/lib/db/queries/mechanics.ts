@@ -3,7 +3,7 @@ import { Mechanic } from '@/types';
 
 export async function getAllMechanics(): Promise<Mechanic[]> {
   const result = await query<Mechanic>(
-    'SELECT * FROM mechanic ORDER BY last_name, first_name'
+    'SELECT * FROM "PitStop_direction".mechanic ORDER BY last_name, first_name'
   );
   return result.rows;
 }
@@ -16,10 +16,10 @@ export async function getMechanicsPaginated(
 
   const [dataResult, countResult] = await Promise.all([
     query<Mechanic>(
-      'SELECT * FROM mechanic ORDER BY last_name, first_name LIMIT $1 OFFSET $2',
+      'SELECT * FROM "PitStop_direction".mechanic ORDER BY last_name, first_name LIMIT $1 OFFSET $2',
       [pageSize, offset]
     ),
-    query<{ count: string }>('SELECT COUNT(*)::text as count FROM mechanic')
+    query<{ count: string }>('SELECT COUNT(*)::text as count FROM "PitStop_direction".mechanic')
   ]);
 
   const total = parseInt(countResult.rows[0].count);
@@ -42,13 +42,13 @@ export async function searchMechanicsPaginated(
 
   const [dataResult, countResult] = await Promise.all([
     query<Mechanic>(
-      `SELECT * FROM mechanic 
+      `SELECT * FROM "PitStop_direction".mechanic 
        WHERE first_name ILIKE $1 OR last_name ILIKE $1 OR email ILIKE $1
        ORDER BY last_name, first_name LIMIT $2 OFFSET $3`,
       [searchPattern, pageSize, offset]
     ),
     query<{ count: string }>(
-      `SELECT COUNT(*)::text as count FROM mechanic 
+      `SELECT COUNT(*)::text as count FROM "PitStop_direction".mechanic 
        WHERE first_name ILIKE $1 OR last_name ILIKE $1 OR email ILIKE $1`,
       [searchPattern]
     )
@@ -66,7 +66,7 @@ export async function searchMechanicsPaginated(
 
 export async function getMechanicById(id: number): Promise<Mechanic | null> {
   const result = await query<Mechanic>(
-    'SELECT * FROM mechanic WHERE id = $1',
+    'SELECT * FROM "PitStop_direction".mechanic WHERE id = $1',
     [id]
   );
   return result.rows[0] || null;
@@ -79,7 +79,7 @@ export async function createMechanic(data: {
   email?: string;
 }): Promise<Mechanic> {
   const result = await query<Mechanic>(
-    `INSERT INTO mechanic (first_name, last_name, years_experience, email)
+    `INSERT INTO "PitStop_direction".mechanic (first_name, last_name, years_experience, email)
      VALUES ($1, $2, $3, $4)
      RETURNING *`,
     [data.firstName, data.lastName, data.yearsExperience, data.email || null]
@@ -97,7 +97,7 @@ export async function updateMechanic(id: number, data: {
   if (!mechanic) return null;
 
   const result = await query<Mechanic>(
-    `UPDATE mechanic 
+    `UPDATE "PitStop_direction".mechanic 
      SET first_name = $1, last_name = $2, years_experience = $3, 
          email = $4, updated_at = CURRENT_TIMESTAMP
      WHERE id = $5
@@ -115,7 +115,7 @@ export async function updateMechanic(id: number, data: {
 
 export async function deleteMechanic(id: number): Promise<boolean> {
   const result = await query(
-    'DELETE FROM mechanic WHERE id = $1',
+    'DELETE FROM "PitStop_direction".mechanic WHERE id = $1',
     [id]
   );
   return (result.rowCount ?? 0) > 0;
@@ -123,7 +123,7 @@ export async function deleteMechanic(id: number): Promise<boolean> {
 
 export async function searchMechanics(searchTerm: string): Promise<Mechanic[]> {
   const result = await query<Mechanic>(
-    `SELECT * FROM mechanic 
+    `SELECT * FROM "PitStop_direction".mechanic 
      WHERE first_name ILIKE $1 OR last_name ILIKE $1 OR email ILIKE $1
      ORDER BY last_name, first_name`,
     [`%${searchTerm}%`]

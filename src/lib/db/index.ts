@@ -20,10 +20,6 @@ if (process.env.NODE_ENV !== 'production') {
   globalForDb.pool = pool;
 }
 
-pool.on('connect', async (client) => {
-  await client.query('SET search_path = "PitStop_direction"');
-});
-
 pool.on('error', (err) => {
   console.error('Unexpected error on idle client', err);
   // Note: Cannot use process.exit() in Edge Runtime
