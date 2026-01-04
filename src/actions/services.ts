@@ -6,11 +6,15 @@ import { z } from "zod";
 import { createService, updateService, deleteService } from "@/lib/db/queries/services";
 
 const serviceSchema = z.object({
-  carId: z.number({error: "Car is required"}),
+  carId: z.number(),
   startDate: z.string().min(1, "Start date is required"),
-  endDate: z.string().optional(),
+  endDate: z.string().optional().or(z.literal("")),
   status: z.enum(["scheduled", "in_progress", "completed", "cancelled"]),
-  notes: z.string().optional(),
+  notes: z
+    .string()
+    .max(10000, "Notes have a maximum of 10000 characters")
+    .optional()
+    .or(z.literal("")),
   mechanicIds: z.array(z.number()).min(1, "At least one mechanic is required"),
 });
 

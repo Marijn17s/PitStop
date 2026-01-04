@@ -86,6 +86,7 @@ export default function LoginPage() {
                 placeholder="name@example.com"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
+                maxLength={255}
                 required
                 disabled={isLoading}
                 className="h-11 bg-slate-900 border-slate-700"
@@ -99,6 +100,7 @@ export default function LoginPage() {
                 placeholder="••••••••"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                maxLength={255}
                 required
                 disabled={isLoading}
                 className="h-11 bg-slate-900 border-slate-700"

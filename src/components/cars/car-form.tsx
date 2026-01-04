@@ -59,6 +59,7 @@ export function CarForm({ car, action }: CarFormProps) {
                 name="brand"
                 placeholder="Toyota"
                 defaultValue={car?.brand}
+                maxLength={100}
                 required
               />
             </div>
@@ -70,6 +71,7 @@ export function CarForm({ car, action }: CarFormProps) {
                 name="model"
                 placeholder="Camry"
                 defaultValue={car?.model}
+                maxLength={100}
                 required
               />
             </div>
@@ -95,6 +97,7 @@ export function CarForm({ car, action }: CarFormProps) {
                 name="color"
                 placeholder="Silver"
                 defaultValue={car?.color}
+                maxLength={50}
                 required
               />
             </div>
@@ -106,6 +109,7 @@ export function CarForm({ car, action }: CarFormProps) {
                 name="licensePlate"
                 placeholder="ABC-123"
                 defaultValue={car?.license_plate || ""}
+                maxLength={20}
                 className="font-mono"
               />
             </div>
@@ -117,6 +121,7 @@ export function CarForm({ car, action }: CarFormProps) {
                 name="owner"
                 placeholder="John Doe"
                 defaultValue={car?.owner || ""}
+                maxLength={200}
               />
             </div>
           </div>

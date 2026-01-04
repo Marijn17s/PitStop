@@ -6,10 +6,24 @@ import { z } from "zod";
 import { createMechanic, updateMechanic, deleteMechanic } from "@/lib/db/queries/mechanics";
 
 const mechanicSchema = z.object({
-  firstName: z.string().min(1, "First name is required"),
-  lastName: z.string().min(1, "Last name is required"),
-  yearsExperience: z.number().min(0).max(100),
-  email: z.email().optional().or(z.literal("")),
+  firstName: z
+    .string()
+    .min(1, "First name is required")
+    .max(50, "First name has a maximum of 50 characters"),
+  lastName: z
+    .string()
+    .min(1, "Last name is required")
+    .max(50, "Last name has a maximum of 50 characters"),
+  yearsExperience: z
+    .number()
+    .min(0, "Years of experience cannot be negative")
+    .max(100, "Years of experience has a maximum of 100"),
+  email: z
+    .string()
+    .max(255, "Email has a maximum of 255 characters")
+    .email("Please enter a valid email address")
+    .optional()
+    .or(z.literal("")),
 });
 
 export async function createMechanicAction(formData: FormData) {

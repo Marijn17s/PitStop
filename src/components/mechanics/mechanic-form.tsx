@@ -58,6 +58,7 @@ export function MechanicForm({ mechanic, action }: MechanicFormProps) {
                 name="firstName"
                 placeholder="John"
                 defaultValue={mechanic?.first_name}
+                maxLength={50}
                 required
               />
             </div>
@@ -69,6 +70,7 @@ export function MechanicForm({ mechanic, action }: MechanicFormProps) {
                 name="lastName"
                 placeholder="Smith"
                 defaultValue={mechanic?.last_name}
+                maxLength={50}
                 required
               />
             </div>
@@ -95,6 +97,7 @@ export function MechanicForm({ mechanic, action }: MechanicFormProps) {
                 type="email"
                 placeholder="john.smith@example.com"
                 defaultValue={mechanic?.email || ""}
+                maxLength={255}
               />
             </div>
           </div>

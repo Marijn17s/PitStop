@@ -50,12 +50,18 @@ export default function RegisterPage() {
     const newErrors: Record<string, string> = {};
 
     if (!formData.firstName.trim()) newErrors.firstName = "First name is required";
+    else if (formData.firstName.length > 100) newErrors.firstName = "First name has a maximum of 100 characters";
+    
     if (!formData.lastName.trim()) newErrors.lastName = "Last name is required";
+    else if (formData.lastName.length > 100) newErrors.lastName = "Last name has a maximum of 100 characters";
+    
     if (!formData.email.trim()) newErrors.email = "Email is required";
-    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = "Email is invalid";
+    else if (formData.email.length > 255) newErrors.email = "Email has a maximum of 255 characters";
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) newErrors.email = "Please enter a valid email address";
     
     if (!formData.password) newErrors.password = "Password is required";
     else if (formData.password.length < 8) newErrors.password = "Password must be at least 8 characters";
+    else if (formData.password.length > 255) newErrors.password = "Password has a maximum of 255 characters";
     else if (!/[a-z]/.test(formData.password)) newErrors.password = "Password must contain lowercase letter";
     else if (!/[A-Z]/.test(formData.password)) newErrors.password = "Password must contain uppercase letter";
     else if (!/[0-9]/.test(formData.password)) newErrors.password = "Password must contain a number";
@@ -139,6 +145,7 @@ export default function RegisterPage() {
                   value={formData.firstName}
                   onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                   disabled={isLoading}
+                  maxLength={100}
                   className="h-11 bg-slate-900 border-slate-700"
                 />
                 {errors.firstName && <p className="text-xs text-red-400">{errors.firstName}</p>}
@@ -151,6 +158,7 @@ export default function RegisterPage() {
                   value={formData.lastName}
                   onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                   disabled={isLoading}
+                  maxLength={100}
                   className="h-11 bg-slate-900 border-slate-700"
                 />
                 {errors.lastName && <p className="text-xs text-red-400">{errors.lastName}</p>}
@@ -166,6 +174,7 @@ export default function RegisterPage() {
                 value={formData.email}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 disabled={isLoading}
+                maxLength={255}
                 className="h-11 bg-slate-900 border-slate-700"
               />
               {errors.email && <p className="text-xs text-red-400">{errors.email}</p>}
@@ -180,6 +189,7 @@ export default function RegisterPage() {
                 value={formData.password}
                 onChange={(e) => handlePasswordChange(e.target.value)}
                 disabled={isLoading}
+                maxLength={255}
                 className="h-11 bg-slate-900 border-slate-700"
               />
               {formData.password && (
@@ -211,6 +221,7 @@ export default function RegisterPage() {
                 value={formData.confirmPassword}
                 onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
                 disabled={isLoading}
+                maxLength={255}
                 className="h-11 bg-slate-900 border-slate-700"
               />
               {errors.confirmPassword && <p className="text-xs text-red-400">{errors.confirmPassword}</p>}

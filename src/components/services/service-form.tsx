@@ -180,6 +180,7 @@ export function ServiceForm({ service, cars, mechanics, action, preselectedCarId
               name="notes"
               placeholder="Any additional information about this service..."
               defaultValue={service?.notes || ""}
+              maxLength={10000}
               rows={4}
             />
           </div>

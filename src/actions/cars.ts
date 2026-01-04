@@ -6,12 +6,32 @@ import { z } from "zod";
 import { createCar, updateCar, deleteCar } from "@/lib/db/queries/cars";
 
 const carSchema = z.object({
-  brand: z.string().min(1, "Brand is required"),
-  model: z.string().min(1, "Model is required"),
-  year: z.number().min(1900).max(new Date().getFullYear() + 1),
-  color: z.string().min(1, "Color is required"),
-  licensePlate: z.string().optional(),
-  owner: z.string().optional(),
+  brand: z
+    .string()
+    .min(1, "Brand is required")
+    .max(100, "Brand has a maximum of 100 characters"),
+  model: z
+    .string()
+    .min(1, "Model is required")
+    .max(100, "Model has a maximum of 100 characters"),
+  year: z
+    .number()
+    .min(1900, "Year must be 1900 or later")
+    .max(new Date().getFullYear() + 1, "Year cannot be more than next year"),
+  color: z
+    .string()
+    .min(1, "Color is required")
+    .max(50, "Color has a maximum of 50 characters"),
+  licensePlate: z
+    .string()
+    .max(20, "License plate has a maximum of 20 characters")
+    .optional()
+    .or(z.literal("")),
+  owner: z
+    .string()
+    .max(200, "Owner name has a maximum of 200 characters")
+    .optional()
+    .or(z.literal("")),
 });
 
 export async function createCarAction(formData: FormData) {
