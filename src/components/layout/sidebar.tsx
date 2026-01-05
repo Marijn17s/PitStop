@@ -31,9 +31,9 @@ export function Sidebar() {
           <span className="text-2xl font-bold text-slate-100">PitStop</span>
         </div>
         <nav className="flex flex-1 flex-col">
-          <ul role="list" className="flex flex-1 flex-col gap-y-7">
+          <ul className="flex flex-1 flex-col gap-y-7">
             <li>
-              <ul role="list" className="-mx-2 space-y-1">
+              <ul className="-mx-2 space-y-1">
                 {navigation.map((item) => {
                   const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
                   return (
