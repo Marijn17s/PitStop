@@ -31,12 +31,12 @@ export default async function MechanicsPage({
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Mechanics</h1>
           <p className="text-slate-500 mt-1">Manage your service team</p>
         </div>
-        <Link href="/mechanics/new">
-          <Button className="bg-blue-600 hover:bg-blue-700">
+        <Button asChild className="bg-blue-600 hover:bg-blue-700">
+          <Link href="/mechanics/new">
             <Plus className="mr-2 h-4 w-4" />
             Add Mechanic
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
 
       <Card className="p-4">
@@ -60,19 +60,19 @@ export default async function MechanicsPage({
             <div className="mx-auto w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
               <Plus className="h-8 w-8 text-slate-400" />
             </div>
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">No mechanics found</h3>
+            <h2 className="text-lg font-semibold text-slate-900 mb-2">No mechanics found</h2>
             <p className="text-slate-500 mb-6">
               {params.q 
                 ? "Try adjusting your search terms"
                 : "Get started by adding your first mechanic"}
             </p>
             {!params.q && (
-              <Link href="/mechanics/new">
-                <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button asChild className="bg-blue-600 hover:bg-blue-700">
+                <Link href="/mechanics/new">
                   <Plus className="mr-2 h-4 w-4" />
                   Add Your First Mechanic
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             )}
           </div>
         </Card>
@@ -106,9 +106,9 @@ export default async function MechanicsPage({
                         </td>
                         <td className="p-4 text-slate-700">{mechanic.email || "-"}</td>
                         <td className="p-4 text-right">
-                          <Link href={`/mechanics/${mechanic.id}`}>
-                            <Button variant="outline" size="sm">View Details</Button>
-                          </Link>
+                          <Button asChild variant="outline" size="sm">
+                            <Link href={`/mechanics/${mechanic.id}`}>View Details</Link>
+                          </Button>
                         </td>
                       </tr>
                     ))}
@@ -124,9 +124,9 @@ export default async function MechanicsPage({
                 <Card className="p-4 hover:shadow-lg transition-shadow">
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <h3 className="font-semibold text-lg text-slate-900">
+                      <h2 className="font-semibold text-lg text-slate-900">
                         {mechanic.first_name} {mechanic.last_name}
-                      </h3>
+                      </h2>
                       <Badge variant="outline" className="mt-2">
                         {mechanic.years_experience} {mechanic.years_experience === 1 ? 'year' : 'years'}
                       </Badge>

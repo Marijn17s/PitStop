@@ -104,24 +104,24 @@ export default async function DashboardPage() {
             <CardDescription>Common tasks and operations</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-3">
-            <Link href="/cars/new">
-              <Button className="w-full justify-start bg-blue-600 hover:bg-blue-700">
+            <Button asChild className="w-full justify-start bg-blue-600 hover:bg-blue-700">
+              <Link href="/cars/new">
                 <Plus className="mr-2 h-4 w-4" />
                 Add New Car
-              </Button>
-            </Link>
-            <Link href="/services/new">
-              <Button className="w-full justify-start" variant="outline">
+              </Link>
+            </Button>
+            <Button asChild className="w-full justify-start" variant="outline">
+              <Link href="/services/new">
                 <Plus className="mr-2 h-4 w-4" />
                 Schedule Service
-              </Button>
-            </Link>
-            <Link href="/mechanics/new">
-              <Button className="w-full justify-start" variant="outline">
+              </Link>
+            </Button>
+            <Button asChild className="w-full justify-start" variant="outline">
+              <Link href="/mechanics/new">
                 <Plus className="mr-2 h-4 w-4" />
                 Add Mechanic
-              </Button>
-            </Link>
+              </Link>
+            </Button>
           </CardContent>
         </Card>
 

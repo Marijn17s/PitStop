@@ -43,12 +43,12 @@ export default async function ServicesPage({
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Services</h1>
           <p className="text-slate-500 mt-1">Manage vehicle maintenance and repairs</p>
         </div>
-        <Link href="/services/new">
-          <Button className="bg-blue-600 hover:bg-blue-700">
+        <Button asChild className="bg-blue-600 hover:bg-blue-700">
+          <Link href="/services/new">
             <Plus className="mr-2 h-4 w-4" />
             Schedule Service
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
 
       <Card className="p-4">
@@ -75,19 +75,19 @@ export default async function ServicesPage({
             <div className="mx-auto w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
               <Plus className="h-8 w-8 text-slate-400" />
             </div>
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">No services found</h3>
+            <h2 className="text-lg font-semibold text-slate-900 mb-2">No services found</h2>
             <p className="text-slate-500 mb-6">
               {status 
                 ? "No services match the selected filter"
                 : "Get started by scheduling your first service"}
             </p>
             {!status && (
-              <Link href="/services/new">
-                <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button asChild className="bg-blue-600 hover:bg-blue-700">
+                <Link href="/services/new">
                   <Plus className="mr-2 h-4 w-4" />
                   Schedule Your First Service
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             )}
           </div>
         </Card>
@@ -136,9 +136,9 @@ export default async function ServicesPage({
                             {service.notes || "-"}
                           </td>
                           <td className="p-4 text-right">
-                            <Link href={`/services/${service.id}`}>
-                              <Button variant="outline" size="sm">View Details</Button>
-                            </Link>
+                            <Button asChild variant="outline" size="sm">
+                              <Link href={`/services/${service.id}`}>View Details</Link>
+                            </Button>
                           </td>
                         </tr>
                       );
@@ -157,9 +157,9 @@ export default async function ServicesPage({
                   <Card className="p-4 hover:shadow-lg transition-shadow">
                     <div className="flex items-start justify-between mb-3">
                       <div>
-                        <h3 className="font-semibold text-lg text-slate-900">
+                        <h2 className="font-semibold text-lg text-slate-900">
                           {car ? `${car.brand} ${car.model}` : 'Unknown'}
-                        </h3>
+                        </h2>
                         <p className="text-sm text-slate-500 mt-1">
                           {formatDate(service.start_date)}
                         </p>

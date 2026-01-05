@@ -31,12 +31,12 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           <p className="text-slate-500 mt-1">Complete information about this service</p>
         </div>
         <div className="flex gap-2">
-          <Link href={`/services/${service.id}/edit`}>
-            <Button variant="outline">
+          <Button asChild variant="outline">
+            <Link href={`/services/${service.id}/edit`}>
               <Edit className="mr-2 h-4 w-4" />
               Edit
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           <DeleteServiceButton serviceId={service.id} />
         </div>
       </div>
@@ -98,9 +98,9 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
             <CardContent>
               <Link href={`/cars/${service.car.id}`} className="block group">
                 <div className="p-4 rounded-lg border border-slate-200 hover:border-blue-300 hover:bg-blue-50/50 transition-colors">
-                  <h3 className="font-semibold text-lg text-slate-900 group-hover:text-blue-600">
+                  <h2 className="font-semibold text-lg text-slate-900 group-hover:text-blue-600">
                     {service.car.brand} {service.car.model}
-                  </h3>
+                  </h2>
                   <div className="mt-2 space-y-1 text-sm text-slate-600">
                     <p>Year: {service.car.year}</p>
                     <p>Color: {service.car.color}</p>

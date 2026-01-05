@@ -72,16 +72,27 @@ export function Pagination({
       className={cn("flex items-center justify-center gap-1", className)}
       aria-label="Pagination"
     >
-      <Link href={createUrl(Math.max(1, currentPage - 1))}>
+      {currentPage === 1 ? (
         <Button
           variant="outline"
           size="sm"
-          disabled={currentPage === 1}
+          disabled
           aria-label="Previous page"
         >
           <ChevronLeft className="h-4 w-4" />
         </Button>
-      </Link>
+      ) : (
+        <Button
+          asChild
+          variant="outline"
+          size="sm"
+          aria-label="Previous page"
+        >
+          <Link href={createUrl(currentPage - 1)}>
+            <ChevronLeft className="h-4 w-4" />
+          </Link>
+        </Button>
+      )}
 
       {pageNumbers.map((page, index) => {
         if (page === "ellipsis") {
@@ -99,32 +110,45 @@ export function Pagination({
         const isActive = pageNum === currentPage
 
         return (
-          <Link key={pageNum} href={createUrl(pageNum)}>
-            <Button
-              variant={isActive ? "default" : "outline"}
-              size="sm"
-              className={cn(
-                isActive && "bg-blue-600 hover:bg-blue-700 text-white"
-              )}
-              aria-label={`Page ${pageNum}`}
-              aria-current={isActive ? "page" : undefined}
-            >
+          <Button
+            key={pageNum}
+            asChild
+            variant={isActive ? "default" : "outline"}
+            size="sm"
+            className={cn(
+              isActive && "bg-blue-600 hover:bg-blue-700 text-white"
+            )}
+            aria-label={`Page ${pageNum}`}
+            aria-current={isActive ? "page" : undefined}
+          >
+            <Link href={createUrl(pageNum)}>
               {pageNum}
-            </Button>
-          </Link>
+            </Link>
+          </Button>
         )
       })}
 
-      <Link href={createUrl(Math.min(totalPages, currentPage + 1))}>
+      {currentPage === totalPages ? (
         <Button
           variant="outline"
           size="sm"
-          disabled={currentPage === totalPages}
+          disabled
           aria-label="Next page"
         >
           <ChevronRight className="h-4 w-4" />
         </Button>
-      </Link>
+      ) : (
+        <Button
+          asChild
+          variant="outline"
+          size="sm"
+          aria-label="Next page"
+        >
+          <Link href={createUrl(currentPage + 1)}>
+            <ChevronRight className="h-4 w-4" />
+          </Link>
+        </Button>
+      )}
     </nav>
   )
 }

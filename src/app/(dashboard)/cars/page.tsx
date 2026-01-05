@@ -31,12 +31,12 @@ export default async function CarsPage({
           <h1 className="text-3xl font-bold tracking-tight text-slate-900">Cars</h1>
           <p className="text-slate-500 mt-1">Manage your vehicle inventory</p>
         </div>
-        <Link href="/cars/new">
-          <Button className="bg-blue-600 hover:bg-blue-700">
+        <Button asChild className="bg-blue-600 hover:bg-blue-700">
+          <Link href="/cars/new">
             <Plus className="mr-2 h-4 w-4" />
             Add Car
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
 
       <Card className="p-4">
@@ -60,19 +60,19 @@ export default async function CarsPage({
             <div className="mx-auto w-16 h-16 bg-slate-100 rounded-full flex items-center justify-center mb-4">
               <Plus className="h-8 w-8 text-slate-400" />
             </div>
-            <h3 className="text-lg font-semibold text-slate-900 mb-2">No cars found</h3>
+            <h2 className="text-lg font-semibold text-slate-900 mb-2">No cars found</h2>
             <p className="text-slate-500 mb-6">
               {params.q 
                 ? "Try adjusting your search terms"
                 : "Get started by adding your first car"}
             </p>
             {!params.q && (
-              <Link href="/cars/new">
-                <Button className="bg-blue-600 hover:bg-blue-700">
+              <Button asChild className="bg-blue-600 hover:bg-blue-700">
+                <Link href="/cars/new">
                   <Plus className="mr-2 h-4 w-4" />
                   Add Your First Car
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             )}
           </div>
         </Card>
@@ -110,9 +110,9 @@ export default async function CarsPage({
                         </td>
                         <td className="p-4 text-slate-700">{car.owner || "-"}</td>
                         <td className="p-4 text-right">
-                          <Link href={`/cars/${car.id}`}>
-                            <Button variant="outline" size="sm">View Details</Button>
-                          </Link>
+                          <Button asChild variant="outline" size="sm">
+                            <Link href={`/cars/${car.id}`}>View Details</Link>
+                          </Button>
                         </td>
                       </tr>
                     ))}
@@ -128,9 +128,9 @@ export default async function CarsPage({
                 <Card className="p-4 hover:shadow-lg transition-shadow">
                   <div className="flex items-start justify-between mb-3">
                     <div>
-                      <h3 className="font-semibold text-lg text-slate-900">
+                      <h2 className="font-semibold text-lg text-slate-900">
                         {car.brand} {car.model}
-                      </h3>
+                      </h2>
                       <p className="text-sm text-slate-500">{car.year}</p>
                     </div>
                     <Badge variant="outline">{car.color}</Badge>

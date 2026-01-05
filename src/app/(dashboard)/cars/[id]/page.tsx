@@ -33,12 +33,12 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
           <p className="text-slate-500 mt-1">Vehicle details and service history</p>
         </div>
         <div className="flex gap-2">
-          <Link href={`/cars/${car.id}/edit`}>
-            <Button variant="outline">
+          <Button asChild variant="outline">
+            <Link href={`/cars/${car.id}/edit`}>
               <Edit className="mr-2 h-4 w-4" />
               Edit
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           <DeleteCarButton carId={car.id} />
         </div>
       </div>
@@ -97,12 +97,12 @@ export default async function CarDetailPage({ params }: { params: Promise<{ id: 
                 <CardTitle>Service History</CardTitle>
                 <CardDescription>All services for this vehicle</CardDescription>
               </div>
-              <Link href={`/services/new?carId=${car.id}`}>
-                <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
+              <Button asChild size="sm" className="bg-blue-600 hover:bg-blue-700">
+                <Link href={`/services/new?carId=${car.id}`}>
                   <Calendar className="mr-2 h-4 w-4" />
                   Schedule
-                </Button>
-              </Link>
+                </Link>
+              </Button>
             </div>
           </CardHeader>
           <CardContent>

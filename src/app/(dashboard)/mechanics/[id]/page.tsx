@@ -37,12 +37,12 @@ export default async function MechanicDetailPage({ params }: { params: Promise<{
           <p className="text-slate-500 mt-1">Mechanic details and service history</p>
         </div>
         <div className="flex gap-2">
-          <Link href={`/mechanics/${mechanic.id}/edit`}>
-            <Button variant="outline">
+          <Button asChild variant="outline">
+            <Link href={`/mechanics/${mechanic.id}/edit`}>
               <Edit className="mr-2 h-4 w-4" />
               Edit
-            </Button>
-          </Link>
+            </Link>
+          </Button>
           <DeleteMechanicButton mechanicId={mechanic.id} />
         </div>
       </div>

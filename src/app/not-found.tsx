@@ -13,11 +13,11 @@ export default function NotFound() {
             The page you&apos;re looking for doesn&apos;t exist or has been moved.
           </p>
         </div>
-        <Link href="/dashboard">
-          <Button className="bg-blue-600 hover:bg-blue-700">
+        <Button asChild className="bg-blue-600 hover:bg-blue-700">
+          <Link href="/dashboard">
             Go to Dashboard
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </Card>
     </div>
   );
