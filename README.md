@@ -15,11 +15,11 @@ A full-stack car maintenance management application built with Nextjs.
 
 ## Tech Stack
 
-- **Frontend**: Next.js 16, React 19, TypeScript, Tailwind CSS 4
+- **Frontend**: Next.js, React, TypeScript, Tailwind CSS
 - **UI Components**: Shadcn UI with custom Racing Blue theme
 - **Backend**: Next.js Server Actions
-- **Database**: PostgreSQL 17
-- **Authentication**: NextAuth.js v5
+- **Database**: PostgreSQL
+- **Authentication**: NextAuth.js
 - **Validation**: Zod
 - **Package Manager and Runtime**: Bun
 - **Testing**: Jest with pg-mem for in-memory database testing
@@ -64,7 +64,6 @@ NEXTAUTH_URL=http://localhost:3000
 ```
 
 **Important Notes:**
-- Never commit `.env.local` to version control (it's already in `.gitignore`)
 - For production, use a secure `NEXTAUTH_SECRET`
 - Update `NEXTAUTH_URL` to match your production domain when deploying
 
@@ -78,7 +77,7 @@ bun run src/lib/db/migrate.ts
 
 This will execute all SQL migration files in `src/lib/db/migrations/` in order.
 
-**Alternative**: If you prefer to run migrations manually, execute the SQL files from `src/lib/db/migrations/` in sequential order.
+**Note**: If you prefer to run migrations manually, execute the SQL files from `src/lib/db/migrations/` in sequential order.
 
 ### Step 5: Verify Setup
 
@@ -255,11 +254,6 @@ bun run src/lib/db/migrate.ts  # Run database migrations
 - Verify user exists in database
 - Check password was hashed correctly during registration
 - Ensure `NEXTAUTH_SECRET` is set in `.env.local`
-
-**Session not persisting**
-- Check `NEXTAUTH_URL` matches your current URL
-- Verify cookies are enabled in browser
-- Check browser console for errors
 
 ## Security
 
